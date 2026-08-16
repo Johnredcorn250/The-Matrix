@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Longitudinal Record — RC-2026</title>
+<meta name="description" content="A ten-year record of milestones, study consistency, finances and field notes.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0D1826">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RC-2026">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="rail" aria-label="Sections">
+  <div class="rail-id">
+    <span class="rail-id-tag">Study ID</span>
+    <span class="rail-id-num">RC&#8209;2026</span>
+    <span class="rail-id-day" id="obsDay">Day —</span>
+  </div>
+  <ul class="rail-nav">
+    <li><button class="rail-btn is-on" data-view="dash">Overview</button></li>
+    <li><button class="rail-btn" data-view="ladder">Credentials</button></li>
+    <li><button class="rail-btn" data-view="study">Study log</button></li>
+    <li><button class="rail-btn" data-view="money">Finances</button></li>
+    <li><button class="rail-btn" data-view="notes">Field notes</button></li>
+  </ul>
+  <div class="rail-foot">
+    <button class="mini mini-go" id="btnInstall" hidden>Install app</button>
+    <button class="mini" id="btnExport">Export data</button>
+    <button class="mini" id="btnImport">Import data</button>
+    <input type="file" id="fileImport" accept="application/json" hidden>
+    <p class="rail-warn" id="backupWarn">Saved on this device only. Export regularly.</p>
+  </div>
+</nav>
+
+<main id="main">
+
+  <!-- ============ OVERVIEW ============ -->
+  <section class="view is-on" id="view-dash">
+    <header class="head">
+      <p class="eyebrow">Longitudinal record</p>
+      <h1>Ten years, observed</h1>
+      <p class="lede">A record of one person's route to a professorship in digital health. Started <span id="startDate"></span>. The point is not the plan — it is whether the plan gets followed.</p>
+    </header>
+
+    <div class="axis-wrap">
+      <div class="axis-head">
+        <span class="axis-title">Enrolment axis</span>
+        <span class="axis-now" id="axisNow"></span>
+      </div>
+      <div class="axis" id="axis"></div>
+      <div class="axis-scale" id="axisScale"></div>
+    </div>
+
+    <div class="stat-row" id="statRow"></div>
+
+    <div class="split">
+      <div class="panel">
+        <h2 class="panel-h">Next up</h2>
+        <ul class="next-list" id="nextList"></ul>
+      </div>
+      <div class="panel">
+        <h2 class="panel-h">Tracks</h2>
+        <ul class="track-list" id="trackList"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CREDENTIALS ============ -->
+  <section class="view" id="view-ladder">
+    <header class="head">
+      <p class="eyebrow">Track 1</p>
+      <h1>Credentials ladder</h1>
+      <p class="lede">Rwanda gates the professoriate on the doctorate. A Master's opens Assistant Lecturer; the PhD opens Lecturer and everything above it. Tick a milestone when it is genuinely done, not when it is nearly done.</p>
+    </header>
+    <div class="ladder" id="ladder"></div>
+  </section>
+
+  <!-- ============ STUDY LOG ============ -->
+  <section class="view" id="view-study">
+    <header class="head">
+      <p class="eyebrow">Track 2</p>
+      <h1>Study log</h1>
+      <p class="lede">Consistency is the measured variable. Log the session on the day it happens — a run of honest gaps is more useful than a fabricated streak.</p>
+    </header>
+
+    <div class="log-strip">
+      <div class="log-stat"><span class="log-n" id="streakN">0</span><span class="log-l">Current streak</span></div>
+      <div class="log-stat"><span class="log-n" id="totalN">0</span><span class="log-l">Sessions logged</span></div>
+      <div class="log-stat"><span class="log-n" id="rateN">—</span><span class="log-l">Weekday rate, 30 days</span></div>
+      <button class="log-cta" id="btnToday">Log today's session</button>
+    </div>
+
+    <div class="cal-wrap">
+      <h2 class="panel-h">Last 12 weeks</h2>
+      <div class="cal" id="cal"></div>
+      <p class="cal-key"><span class="sw sw-0"></span> none <span class="sw sw-1"></span> logged <span class="sw sw-2"></span> logged with output</p>
+    </div>
+
+    <div class="curric" id="curric"></div>
+  </section>
+
+  <!-- ============ FINANCES ============ -->
+  <section class="view" id="view-money">
+    <header class="head">
+      <p class="eyebrow">Constraint</p>
+      <h1>Finances</h1>
+      <p class="lede">Every figure here is a placeholder until you replace it with a real quote. Nothing on this page is financial advice — it is a worksheet for your own numbers.</p>
+    </header>
+
+    <div class="fx">
+      <span class="fx-l">Rates, editable</span>
+      <label>1 CAD = <input type="number" id="fxRwf" step="1"> RWF</label>
+      <label>1 CAD = <input type="number" id="fxUsd" step="0.01"> USD</label>
+      <span class="fx-note">Set these yourself. They drift.</span>
+    </div>
+
+    <div class="money-grid" id="costTotals"></div>
+
+    <div class="panel">
+      <h2 class="panel-h">Costs by phase</h2>
+      <p class="panel-sub">Edit any amount. <span class="flag flag-verify">verify</span> means get a real quote before trusting it.</p>
+      <div id="costTable"></div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-h">Savings against target</h2>
+      <div class="save-row">
+        <label>Saved so far <input type="number" id="savedNow" step="100"> CAD</label>
+        <label>Target for the next phase <input type="number" id="savedTarget" step="100"> CAD</label>
+      </div>
+      <div class="bar"><div class="bar-fill" id="saveBar"></div></div>
+      <p class="save-read" id="saveRead"></p>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-h">Funding pipeline</h2>
+      <p class="panel-sub">Funding, not admission, is what decides where the PhD happens.</p>
+      <div id="fundTable"></div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel-h">Income through the phases</h2>
+      <div id="incomeTable"></div>
+    </div>
+  </section>
+
+  <!-- ============ FIELD NOTES ============ -->
+  <section class="view" id="view-notes">
+    <header class="head">
+      <p class="eyebrow">Observations</p>
+      <h1>Field notes</h1>
+      <p class="lede">The part that will matter most in ten years. Write what actually happened, including the weeks that went badly.</p>
+    </header>
+    <div class="note-new">
+      <textarea id="noteBody" rows="5" placeholder="What happened this week? What shifted? What did you avoid?"></textarea>
+      <button class="btn" id="btnNote">Save note</button>
+    </div>
+    <div id="noteList"></div>
+  </section>
+
+</main>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js')
+      .catch(err=>console.warn('Offline mode unavailable:',err));
+  });
+}
+</script>
+</body>
+</html>
